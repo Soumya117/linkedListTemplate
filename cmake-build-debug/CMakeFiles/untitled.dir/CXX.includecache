@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/soumya/untitled/TemplateLinkedList.cpp
+/home/soumya/Desktop/desktop/githome/linkedListTemplate/TemplateLinkedList.cpp
 
-/home/soumya/untitled/TemplateLinkedList.h
+/home/soumya/Desktop/desktop/githome/linkedListTemplate/TemplateLinkedList.h
 vector
 -
 iostream
@@ -16,9 +16,9 @@ iostream
 memory
 -
 
-/home/soumya/untitled/main.cpp
+/home/soumya/Desktop/desktop/githome/linkedListTemplate/main.cpp
 iostream
 -
 TemplateLinkedList.h
-/home/soumya/untitled/TemplateLinkedList.h
+/home/soumya/Desktop/desktop/githome/linkedListTemplate/TemplateLinkedList.h
 

@@ -4,8 +4,6 @@
 using namespace linked;
 int main()
 {
-  std::cout << "Hello, World!" << std::endl;
-
   auto linkedList = new TemplateLinkedList<int>();
 
   std::vector<int> list1 = {1, 3, 5};
@@ -13,9 +11,7 @@ int main()
 
   linkedList->push(list1);
   linkedList->append(list2);
-
   linkedList->deleteFromFront();
-
   linkedList->deleteFromBack();
 
   return 0;
