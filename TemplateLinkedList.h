@@ -16,7 +16,7 @@ private:
 
   bool isEmpty();
   Node* getLastNode();
-  Node* head;
+  Node* head = nullptr;
 
   ~TemplateLinkedList();
 public:
@@ -85,7 +85,7 @@ void TemplateLinkedList<Type>::append(const std::vector<Type>& list)
     auto last = getLastNode();
     if (last == nullptr)
     {
-      auto node = new Node();
+      Node* node = new Node();
       node->data = data;
       head = node;
     }
@@ -105,7 +105,8 @@ void TemplateLinkedList<Type>::deleteFromBack()
 {
   if (isEmpty())
     return;
-  auto previous = new Node();
+
+  Node* previous = nullptr;
   auto node = head;
   while (node->next != nullptr)
   {
