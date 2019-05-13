@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/soumya/untitled/TemplateLinkedList.cpp
+
+/home/soumya/untitled/TemplateLinkedList.h
+vector
+-
+iostream
+-
+memory
+-
+
+/home/soumya/untitled/main.cpp
+iostream
+-
+TemplateLinkedList.h
+/home/soumya/untitled/TemplateLinkedList.h
+
