@@ -27,6 +27,7 @@ public:
   int display(Node*);
   Node* mergeList(const int& index,
                   Node* mergeIn);
+  int getMergeIndex(Node* mergeIn);
 };
 
 template<typename Type>
@@ -46,7 +47,7 @@ int TemplateLinkedList<Type>::display(Node* head)
     node = node->next;
   }
   std::cout << std::endl;
-  return count + 1;
+  return count;
 }
 
 template<typename Type>
@@ -163,5 +164,36 @@ typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::mergeList(
   }
   display(headToMerge);
 }
+
+template<typename Type>
+int TemplateLinkedList<Type>::getMergeIndex(linked::TemplateLinkedList<Type>::Node *mergeIn)
+{
+    if(head == nullptr || mergeIn == nullptr)
+    {
+        return -1;
+    }
+
+    auto len1 = display(head);
+    auto len2 = display(mergeIn);
+
+    auto diffIndex = abs(len1 - len2);
+
+    auto node1 = head;
+    for (auto i = 0; i  < diffIndex; i++)
+    {
+        node1 = node1->next;
+    }
+    int count (0);
+    while(node1 != nullptr && mergeIn != nullptr)
+    {
+       if(node1 == mergeIn)
+       {
+           return count + diffIndex;
+       }
+        count++;
+        node1 = node1->next;
+        mergeIn = mergeIn->next;
+    }
 }
 
+}
