@@ -15,16 +15,18 @@ private:
   };
 
   bool isEmpty();
-  Node* getLastNode();
+  Node* getLastNode(Node*);
   Node* head = nullptr;
 
   ~TemplateLinkedList();
 public:
   void push(const std::vector<Type>& list);
-  void append(const std::vector<Type>& list);
+  Node* append(const std::vector<Type>& list);
   void deleteFromFront();
   void deleteFromBack();
-  void display();
+  int display(Node*);
+  Node* mergeList(const int& index,
+                  Node* mergeIn);
 };
 
 template<typename Type>
@@ -34,7 +36,7 @@ bool TemplateLinkedList<Type>::isEmpty()
 }
 
 template<typename Type>
-void TemplateLinkedList<Type>::display()
+int TemplateLinkedList<Type>::display(Node* head)
 {
   auto node = head;
   auto count(0);
@@ -44,10 +46,11 @@ void TemplateLinkedList<Type>::display()
     node = node->next;
   }
   std::cout << std::endl;
+  return count + 1;
 }
 
 template<typename Type>
-typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::getLastNode()
+typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::getLastNode(Node* head)
 {
   auto node = head;
   if (isEmpty())
@@ -74,15 +77,15 @@ void TemplateLinkedList<Type>::push(const std::vector<Type>& list)
     node->next = head;
     head = node;
   }
-  display();
+  display(head);
 }
 
 template<typename Type>
-void TemplateLinkedList<Type>::append(const std::vector<Type>& list)
+typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::append(const std::vector<Type>& list)
 {
   for (const auto data : list)
   {
-    auto last = getLastNode();
+    auto last = getLastNode(head);
     if (last == nullptr)
     {
       Node* node = new Node();
@@ -97,7 +100,8 @@ void TemplateLinkedList<Type>::append(const std::vector<Type>& list)
       node->next = nullptr;
     }
   }
-  display();
+  display(head);
+  return head;
 }
 
 template<typename Type>
@@ -105,7 +109,6 @@ void TemplateLinkedList<Type>::deleteFromBack()
 {
   if (isEmpty())
     return;
-
   Node* previous = nullptr;
   auto node = head;
   while (node->next != nullptr)
@@ -115,7 +118,7 @@ void TemplateLinkedList<Type>::deleteFromBack()
   }
   previous->next = nullptr;
   delete node;
-  display();
+  display(head);
 }
 
 template<typename Type>
@@ -126,7 +129,7 @@ void TemplateLinkedList<Type>::deleteFromFront()
   auto node = head->next;
   delete head;
   head = node;
-  display();
+  display(head);
 }
 
 template<typename Type>
@@ -138,6 +141,27 @@ TemplateLinkedList<Type>::~TemplateLinkedList()
     delete node;
     node = node->next;
   }
+}
+
+template<typename Type>
+typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::mergeList(
+  const int& index,
+  Node* mergeIn)
+{
+  auto parentNode = head;
+  auto headToMerge = mergeIn;
+  auto tailToMerge = getLastNode(headToMerge);
+  int count{0};
+  while (parentNode != nullptr)
+  {
+    count++;
+    parentNode = parentNode->next;
+    if (count == index)
+    {
+      tailToMerge->next = parentNode;
+    }
+  }
+  display(headToMerge);
 }
 }
 
