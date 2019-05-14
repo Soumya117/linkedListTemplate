@@ -16,6 +16,7 @@ private:
 
   bool isEmpty();
   Node* getLastNode(Node*);
+  Node* iterateDiff(Node*, const int&);
   Node* head = nullptr;
 
   ~TemplateLinkedList();
@@ -24,11 +25,22 @@ public:
   Node* append(const std::vector<Type>& list);
   void deleteFromFront();
   void deleteFromBack();
-  int display(Node*);
-  Node* mergeList(const int& index,
-                  Node* mergeIn);
-  int getMergeIndex(Node* mergeIn);
+  int length(Node*);
+  void display(Node*);
+  void mergeList(const int& index, Node* mergeIn);
+  Type getMergeIndexData(Node* mergeIn);
 };
+
+template<typename Type>
+typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::iterateDiff(Node* nodeHead, const int& diff)
+{
+  auto node = nodeHead;
+  for (int i = 0;i < abs(diff);i++)
+  {
+    node = node->next;
+  }
+  return std::move(node);
+}
 
 template<typename Type>
 bool TemplateLinkedList<Type>::isEmpty()
@@ -37,17 +49,38 @@ bool TemplateLinkedList<Type>::isEmpty()
 }
 
 template<typename Type>
-int TemplateLinkedList<Type>::display(Node* head)
+int TemplateLinkedList<Type>::length(Node* head)
 {
+  if (!head)
+  {
+    std::cout << "List is empty.." << std::endl;
+    return 0;
+  }
   auto node = head;
   auto count(0);
   while (node != nullptr)
   {
-    std::cout << count++ << ": " << node->data << std::endl;
+    count++;
+    node = node->next;
+  }
+  return count;
+}
+
+template<typename Type>
+void TemplateLinkedList<Type>::display(Node* head)
+{
+  if (!head)
+  {
+    std::cout << "List is empty.." << std::endl;
+    return;
+  }
+  auto node = head;
+  while (node != nullptr)
+  {
+    std::cout << node->data << std::endl;
     node = node->next;
   }
   std::cout << std::endl;
-  return count;
 }
 
 template<typename Type>
@@ -89,7 +122,7 @@ typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::append(const 
     auto last = getLastNode(head);
     if (last == nullptr)
     {
-      Node* node = new Node();
+      auto node = new Node();
       node->data = data;
       head = node;
     }
@@ -145,55 +178,60 @@ TemplateLinkedList<Type>::~TemplateLinkedList()
 }
 
 template<typename Type>
-typename TemplateLinkedList<Type>::Node* TemplateLinkedList<Type>::mergeList(
+void TemplateLinkedList<Type>::mergeList(
   const int& index,
   Node* mergeIn)
 {
-  auto parentNode = head;
+  if (!index)
+  {
+    std::cout << "Index cannot be 0" << std::endl;
+    return;
+  }
+  auto len = length(head);
+  if (index >= len)
+  {
+    std::cout << "Index is out of range.." << std::endl;
+    return;
+  }
+  auto parentHead = head;
   auto headToMerge = mergeIn;
   auto tailToMerge = getLastNode(headToMerge);
   int count{0};
-  while (parentNode != nullptr)
+  while (parentHead != nullptr)
   {
-    count++;
-    parentNode = parentNode->next;
     if (count == index)
     {
-      tailToMerge->next = parentNode;
+      tailToMerge->next = parentHead;
+      display(headToMerge);
+      return;
     }
+    parentHead = parentHead->next;
+    count++;
   }
   display(headToMerge);
 }
 
 template<typename Type>
-int TemplateLinkedList<Type>::getMergeIndex(linked::TemplateLinkedList<Type>::Node *mergeIn)
+Type TemplateLinkedList<Type>::getMergeIndexData(linked::TemplateLinkedList<Type>::Node* mergeInHead)
 {
-    if(head == nullptr || mergeIn == nullptr)
-    {
-        return -1;
-    }
+  auto len1 = length(head);
+  auto len2 = length(mergeInHead);
 
-    auto len1 = display(head);
-    auto len2 = display(mergeIn);
-
-    auto diffIndex = abs(len1 - len2);
-
-    auto node1 = head;
-    for (auto i = 0; i  < diffIndex; i++)
+  auto diffIndex = len1 - len2;
+  auto node1 = head;
+  auto node2 = mergeInHead;
+  if (diffIndex > 0)
+    node1 = iterateDiff(head, diffIndex);
+  else
+    node2 = iterateDiff(mergeInHead, diffIndex);
+  while (node1 != nullptr && node2 != nullptr)
+  {
+    if (node1 == node2)
     {
-        node1 = node1->next;
+      return node1->data;
     }
-    int count (0);
-    while(node1 != nullptr && mergeIn != nullptr)
-    {
-       if(node1 == mergeIn)
-       {
-           return count + diffIndex;
-       }
-        count++;
-        node1 = node1->next;
-        mergeIn = mergeIn->next;
-    }
+    node1 = node1->next;
+    node2 = node2->next;
+  }
 }
-
 }
