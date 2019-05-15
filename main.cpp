@@ -1,5 +1,6 @@
 #include <iostream>
 #include "TemplateLinkedList.h"
+#include "TemplateDoubleLinkedList.h"
 
 using namespace std;
 using namespace linked;
@@ -73,9 +74,34 @@ void mergeStringData()
 }
 }
 
+void test_doublelinkedlist_int()
+{
+  const std::vector<int> data = {1,3,4,5};
+  const auto& doubleList = new TemplateDoubleLinkedList<int>();
+  doubleList->append(data);
+
+  const std::vector<int> dataToPush = {6,7,8,9};
+  doubleList->push(dataToPush);
+
+  doubleList->deleteFromEnd();
+  doubleList->deleteFromFront();
+}
+
+void test_doublelinkedlist_string()
+{
+  const std::vector<string> data = {"i", "am", "batman"};
+  const auto& doubleList = new TemplateDoubleLinkedList<string>();
+  doubleList->append(data);
+
+  const std::vector<string> dataToPush = {"avengers", "assemble"};
+  doubleList->push(dataToPush);
+
+  doubleList->deleteFromEnd();
+  doubleList->deleteFromFront();
+}
+
 int main()
 {
-  mergeIntData();
-  mergeStringData();
+  test_doublelinkedlist_string();
   return 0;
 }
